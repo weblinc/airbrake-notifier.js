@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>airbrake-notifier test</title>
+		<script src="airbrake-notifier.js"></script>
+		<script>
+			AirbrakeInit({
+				key  : 'abcdefabcdefabcdefabcdefabcdef11',
+				host : 'localhost:3000',
+				env  : 'production',
+				defaults : {
+					url       : window.location.href,
+					component : 'product',
+					action    : 'show',
+					session   : { name: 'genericUser', accountType: 'normal' },
+					params    : { query: 'javascript', type: 'json' } 
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<a href="#" onclick="thisFnDoesntExist(); return false;">Throw that error!</a>
+	<body>
+</html>

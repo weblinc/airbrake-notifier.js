@@ -1,0 +1,8 @@
+{
+    "JAVASCRIPT" : {
+        "DIST_DIR" : "./",
+        "airbrake-notifier" : [
+            "./airbrake-notifier.js"
+        ]
+    }
+}
