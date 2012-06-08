@@ -15,13 +15,17 @@ Call `AirbrakeInit` after the inclusion of `airbrake-notifier.js`. `key`, `host`
         key  : 'abcdefabcdefabcdefabcdefabcdef11',
         host : 'localhost:3000',
         env  : 'production',
+        /* Configurations below are optional */
         defaults : {
             url       : window.location.href,
             component : 'product',
             action    : 'show',
             session   : { name: 'genericUser', accountType: 'normal' },
             params    : { query: 'javascript', type: 'json' } 
-        }
+        },
+        errorIgnore : [], // Array of regexes of errors to ignore
+        userAgentIgnore : [], // Array of regexes of user agent strings to ignore
+        backtraceIgnore : [] // Array of regexes of files in a backtrace to ignore
     });
 </script>
 ```

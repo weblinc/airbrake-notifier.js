@@ -8,13 +8,17 @@
 				key  : 'abcdefabcdefabcdefabcdefabcdef11',
 				host : 'localhost:3000',
 				env  : 'production',
+				/* Configurations below are optional */
 				defaults : {
 					url       : window.location.href,
 					component : 'product',
 					action    : 'show',
 					session   : { name: 'genericUser', accountType: 'normal' },
 					params    : { query: 'javascript', type: 'json' } 
-				}
+				},
+				errorIgnore : [],
+				userAgentIgnore : [],
+				backtraceIgnore : []
 			});
 		</script>
 	</head>
