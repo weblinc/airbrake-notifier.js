@@ -15,6 +15,8 @@ Call `AirbrakeInit` after the inclusion of `airbrake-notifier.js`. `key`, `host`
         key  : 'abcdefabcdefabcdefabcdefabcdef11',
         host : 'localhost:3000',
         env  : 'production',
+        /* path defaults to /notifier_api/v2/notices.xml */
+        path : '/notifier_api/v2/notices.xml',
         /* Configurations below are optional */
         defaults : {
             url       : window.location.href,

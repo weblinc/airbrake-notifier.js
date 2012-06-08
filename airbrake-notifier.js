@@ -5,13 +5,12 @@
 
 ;(function () {
 
-  var
-    VERSION     = '2.0',
-    SERVER_PATH = '/notifier_api/v2/notices.xml?data=';
+  var VERSION = '2.0';
 
   window.AirbrakeInit = function( o ) {
     Airbrake.setKey( o.key || '' );
     Airbrake.setHost( o.host || '' );
+    Airbrake.setPath( o.path || '/notifier_api/v2/notices.xml' );
     Airbrake.setEnvironment( o.env || '' );
     Airbrake.setErrorDefaults( o.defaults || {} );
 
@@ -55,7 +54,8 @@
     notify: function(error) {
       var xml     = escape(Airbrake.generateXML(error));
       var host    = Airbrake.host;
-      var url     = '//' + host + SERVER_PATH + xml;
+      var path    = Airbrake.path;
+      var url     = '//' + host + path + '?data=' + xml;
       var request = document.createElement('iframe');
 
       if ( !Airbrake.validError(error.message) ||
@@ -82,6 +82,10 @@
 
     setHost: function(value) {
       Airbrake.host = value;
+    },
+
+    setPath: function(path) {
+      Airbrake.path = path;
     },
 
     setKey: function(value) {
