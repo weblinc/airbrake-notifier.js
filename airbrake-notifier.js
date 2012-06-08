@@ -13,7 +13,11 @@
     Airbrake.setKey( o.key || '' );
     Airbrake.setHost( o.host || '' );
     Airbrake.setEnvironment( o.env || '' );
-    Airbrake.setErrorDefaults( o.defaults || '' );
+    Airbrake.setErrorDefaults( o.defaults || {} );
+
+    Airbrake.backtraceIgnore = o.backtraceIgnore || [];
+    Airbrake.userAgentIgnore = o.userAgentIgnore || [];
+    Airbrake.errorIgnore     = o.errorIgnore || [];
   };
 
   window.Airbrake = {
@@ -43,13 +47,21 @@
     </notice>',
     ROOT              : window.location.protocol + '//' + window.location.host,
     BACKTRACE_MATCHER : /^(.*)\@(.*)\:(\d+)$/,
-    backtrace_filters : [/\/notifier\.js/],
+    
+    backtraceIgnore : [],
+    errorIgnore     : [],
+    userAgentIgnore : [],
 
     notify: function(error) {
       var xml     = escape(Airbrake.generateXML(error));
       var host    = Airbrake.host;
       var url     = '//' + host + SERVER_PATH + xml;
       var request = document.createElement('iframe');
+
+      if ( !Airbrake.validError(error.message) ||
+          !Airbrake.validUserAgent(navigator.userAgent) ) {
+        return false;
+      }
 
       request.style.width   = '1px';
       request.style.height  = '1px';
@@ -187,8 +199,28 @@
     },
 
     validBacktraceLine: function(line) {
-      for (var i = 0; i < Airbrake.backtrace_filters.length; i++) {
-        if (line.match(Airbrake.backtrace_filters[i])) {
+      for (var i = 0; i < Airbrake.backtraceIgnore.length; i++) {
+        if (line.match(Airbrake.backtraceIgnore[i])) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+
+    validError: function(error) {
+      for (var i = 0; i < Airbrake.errorIgnore.length; i++) {
+        if (error.match(Airbrake.errorIgnore[i])) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+
+    validUserAgent: function(ua) {
+      for (var i = 0; i < Airbrake.userAgentIgnore.length; i++) {
+        if (ua.match(Airbrake.userAgentIgnore[i])) {
           return false;
         }
       }
